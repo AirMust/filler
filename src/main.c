@@ -6,7 +6,7 @@
 /*   By: air_must <air_must@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/31 02:29:43 by lcharvol          #+#    #+#             */
-/*   Updated: 2020/08/03 00:57:19 by air_must         ###   ########.fr       */
+/*   Updated: 2020/08/03 01:16:57 by air_must         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ void read_object_value(t_filler *tf, int flag)
 	IF_TRUE(flag == 1, tf->token = temp_map);
 }
 
+void create_grid(t_filler *tf)
+{
+	int i;
+
+	tf->heat = (int **)malloc(sizeof(int *) * (tf->map_row + 1));
+	i = -1;
+	while (++i < tf->map_row)
+		tf->heat[i] = (int *)malloc(sizeof(int) * (tf->map_col + 1));
+	tf->heat[i] = 0;
+}
+
 void read_object_size(char *line, t_filler *tf, int flag)
 {
 	char **actor;
@@ -59,6 +70,7 @@ void read_object(char *line, t_filler *tf, int flag)
 {
 	read_object_size(line, tf, flag);
 	read_object_value(tf, flag);
+	IF_TRUE(flag == 0, create_grid(tf));
 }
 
 void read_user(t_filler *tf)
@@ -120,7 +132,7 @@ t_filler *create_filler()
 	tf->token_col = 0;
 	tf->token_row = 0;
 	tf->heat = NULL;
-	tf->radius = 10005000;
+	tf->radius = 11;
 	tf->iam = 0;
 	tf->he = 0;
 	return (tf);
@@ -129,36 +141,18 @@ t_filler *create_filler()
 int main(void)
 {
 	t_filler *tf;
-	int i;
-	int j;
-	tf = create_filler();
 
-	i = 0;
+	tf = create_filler();
 	read_user(tf);
 	while (1)
 	{
 		read_filler(tf);
-		tf->radius = 10005000;
-		tf->heat = (int **)malloc(sizeof(int *) * (tf->map_row + 1));
-		j = -1;
-		while (++j < tf->map_row)
-		{
-			tf->heat[j] = (int *)malloc(sizeof(int) * (tf->map_col + 1));
-		}
-		tf->heat[j] = 0;
-		algorithm2(tf);
-		// i = -1;
-		// while (++i < tf->map_row)
-		// {
-		// 	j = -1;
-		// 	while(++j < tf->map_col)
-		// 		printf("%d ", tf->heat[i][j]);
-		// 	printf("\n");
-		// }
+		tf->radius = 11;
+		filler_algorithm(tf);
 		ft_free_matrix_char(&(tf->map), tf->map_row);
 		ft_free_matrix_int(&(tf->heat), tf->map_row);
 		ft_free_matrix_char(&(tf->token), tf->token_row);
-		if (tf->radius == 10005000)
+		if (tf->radius == 11)
 		{
 			ft_printf("0 0\n");
 			break;
