@@ -6,7 +6,7 @@
 /*   By: air_must <air_must@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 14:22:06 by slynell           #+#    #+#             */
-/*   Updated: 2020/08/01 14:55:40 by air_must         ###   ########.fr       */
+/*   Updated: 2020/08/03 01:30:33 by air_must         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,26 @@ typedef struct		s_filler
 {
 	int		col;
 	int		row;
-	int		tmp_row;
-	int		tmp_col;
 	char	**map;
 	char	**token;
-	char	player;
-	char	opponent;
+	char	iam;
+	char	he;
 	int		map_row;
 	int		map_col;
 	int		token_row;
 	int		token_col;
 	int		radius;
+	int		**heat;
 }					t_filler;
 
 /*
-** Push swap basic function
+** Read Filler function
 */
+void read_object(char *line, t_filler *tf, int flag);
 
-void filler_algoritm(t_filler *tf);
+/*
+** Algorithm Filler function
+*/
+void filler_algorithm(t_filler *tf);
 
 #endif
